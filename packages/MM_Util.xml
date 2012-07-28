@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE MudletPackage >
+<MudletPackage version="1.0">
+  <TriggerPackage />
+  <TimerPackage />
+  <AliasPackage />
+  <ActionPackage />
+  <ScriptPackage>
+    <name>MM_Util</name>
+    <packageName>Util</packageName>
+    <script></script>
+    <eventHandlerList />
+    <Script isActive="yes" isFolder="no">
+      <name>Table File Storage</name>
+      <packageName></packageName>
+      <script>if (not MM_Util) then
+	MM_Util = {}
+end
+function MM_Util:loadTable(module, t)
+	--- test if we can open the file
+	local f = io.open(getMudletHomeDir() .. "\\" .. module .. ".mudlet")
+	if f == nil then self.saveTable(module, t) else io.close(f) end --- Force a save to create the file
+   table.load(getMudletHomeDir() .. "\\" .. module .. ".mudlet", t)
+end
+
+function MM_Util:saveTable(module, t)
+	table.save(getMudletHomeDir() .. "\\" .. module .. ".mudlet", t)
+end
+</script>
+      <eventHandlerList />
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>Combination Rolls</name>
+      <packageName></packageName>
+      <script>function MM_Util:getNextCombo(tbl, num)
+	local powers = {}
+	local c = 1
+	for i, v in pairs(tbl) do
+		powers[i] = c
+		c = v * c
+	end	
+	local combo = {}
+	for i = #powers, 1, -1 do
+		combo[i] = math.floor(num / powers[i])
+		num = num % powers[i]
+	end
+	display(combo)
+end</script>
+      <eventHandlerList />
+    </Script>
+  </ScriptPackage>
+  <KeyPackage />
+</MudletPackage>

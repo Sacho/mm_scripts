@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE MudletPackage >
+<MudletPackage version="1.0">
+  <TriggerPackage>
+    <name>MM_Betters</name>
+    <script></script>
+    <triggerType>0</triggerType>
+    <conditonLineDelta>0</conditonLineDelta>
+    <mStayOpen>0</mStayOpen>
+    <mCommand></mCommand>
+    <packageName></packageName>
+    <mFgColor>#ff0000</mFgColor>
+    <mBgColor>#ffff00</mBgColor>
+    <mSoundFile></mSoundFile>
+    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+    <regexCodeList />
+    <regexCodePropertyList />
+    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+      <name>MM_Betters Add Better</name>
+      <script>MM_Betters:add(matches[2], matches[3])</script>
+      <triggerType>0</triggerType>
+      <conditonLineDelta>0</conditonLineDelta>
+      <mStayOpen>0</mStayOpen>
+      <mCommand></mCommand>
+      <packageName></packageName>
+      <mFgColor>#ff0000</mFgColor>
+      <mBgColor>#ffff00</mBgColor>
+      <mSoundFile></mSoundFile>
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList>
+        <string>^You have become more learned at '(.+)' (.+).</string>
+        <string>^You have become better at '(.+)' (.+).</string>
+      </regexCodeList>
+      <regexCodePropertyList>
+        <integer>1</integer>
+        <integer>1</integer>
+      </regexCodePropertyList>
+    </Trigger>
+  </TriggerPackage>
+  <TimerPackage />
+  <AliasPackage />
+  <ActionPackage />
+  <ScriptPackage>
+    <name>MM_Betters</name>
+    <packageName></packageName>
+    <script></script>
+    <eventHandlerList />
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Betters_OnLoad</name>
+      <packageName></packageName>
+      <script>function MM_Betters_OnLoad()
+	MM_Util:loadTable("betters", MM_Betters.store)
+end</script>
+      <eventHandlerList>
+        <string>sysLoadEvent</string>
+      </eventHandlerList>
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Betters Core</name>
+      <packageName></packageName>
+      <script>if (not MM_Betters) then
+	MM_Betters = {}
+	MM_Betters.store = {}
+end
+
+function MM_Betters:add(skill, prcnt)
+	table.insert(self.store, skill .. prcnt .. " at " .. os.date("%Y-%m-%d %H:%M:%S"))
+	MM_Util:saveTable("betters", self.store)
+end
+</script>
+      <eventHandlerList />
+    </Script>
+  </ScriptPackage>
+  <KeyPackage />
+</MudletPackage>

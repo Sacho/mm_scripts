@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE MudletPackage >
+<MudletPackage version="1.0">
+  <TriggerPackage>
+    <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+      <name>MM_Travel</name>
+      <script></script>
+      <triggerType>0</triggerType>
+      <conditonLineDelta>0</conditonLineDelta>
+      <mStayOpen>0</mStayOpen>
+      <mCommand></mCommand>
+      <packageName></packageName>
+      <mFgColor>#ff0000</mFgColor>
+      <mBgColor>#ffff00</mBgColor>
+      <mSoundFile></mSoundFile>
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList />
+      <regexCodePropertyList />
+      <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+        <name>MM_Travel Add New Travel Point</name>
+        <script>MM_Travel:add({matches[2], matches[3]}, matches[4])</script>
+        <triggerType>0</triggerType>
+        <conditonLineDelta>0</conditonLineDelta>
+        <mStayOpen>0</mStayOpen>
+        <mCommand></mCommand>
+        <packageName></packageName>
+        <mFgColor>#ff0000</mFgColor>
+        <mBgColor>#ffff00</mBgColor>
+        <mSoundFile></mSoundFile>
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          <string>^You are currently at position (\d+), (\d+) in (.+).$</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          <integer>1</integer>
+        </regexCodePropertyList>
+      </Trigger>
+      <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+        <name>MM_Travel Calculate Distance</name>
+        <script>MM_Travel:distance({matches[2], matches[3]})</script>
+        <triggerType>0</triggerType>
+        <conditonLineDelta>0</conditonLineDelta>
+        <mStayOpen>0</mStayOpen>
+        <mCommand></mCommand>
+        <packageName></packageName>
+        <mFgColor>#ff0000</mFgColor>
+        <mBgColor>#ffff00</mBgColor>
+        <mSoundFile></mSoundFile>
+        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+        <regexCodeList>
+          <string>^You are currently at position (\d+), (\d+)</string>
+        </regexCodeList>
+        <regexCodePropertyList>
+          <integer>1</integer>
+        </regexCodePropertyList>
+      </Trigger>
+    </TriggerGroup>
+  </TriggerPackage>
+  <TimerPackage />
+  <AliasPackage>
+    <AliasGroup isActive="yes" isFolder="yes">
+      <name>MM_Travel</name>
+      <script></script>
+      <command></command>
+      <packageName></packageName>
+      <regex></regex>
+      <Alias isActive="yes" isFolder="no">
+        <name>MM_Travel Set Target</name>
+        <script>echo("Targetting " .. matches[2])
+MM_Travel:target(matches[2])</script>
+        <command></command>
+        <packageName></packageName>
+        <regex>^travel target (.+)$</regex>
+      </Alias>
+      <Alias isActive="yes" isFolder="no">
+        <name>MM_Travel Target Found</name>
+        <script>MM_Travel:found()</script>
+        <command></command>
+        <packageName></packageName>
+        <regex>^travel found$</regex>
+      </Alias>
+    </AliasGroup>
+  </AliasPackage>
+  <ActionPackage />
+  <ScriptPackage>
+    <ScriptGroup isActive="yes" isFolder="yes">
+      <name>MM_Travel</name>
+      <packageName></packageName>
+      <script></script>
+      <eventHandlerList />
+      <Script isActive="yes" isFolder="no">
+        <name>MM_Travel_OnLoad</name>
+        <packageName></packageName>
+        <script>function MM_Travel_OnLoad()
+	MM_Util:loadTable("travel", MM_Travel.store)
+	for i,k in pairs(MM_Travel.store) do
+		MM_Travel.store[i][1] = tonumber(MM_Travel.store[i][1])
+		MM_Travel.store[i][2] = tonumber(MM_Travel.store[i][2])
+	end
+	MM_Util:saveTable("travel", MM_Travel.store)
+end</script>
+        <eventHandlerList>
+          <string>sysLoadEvent</string>
+        </eventHandlerList>
+      </Script>
+      <Script isActive="yes" isFolder="no">
+        <name>MM_Travel Core</name>
+        <packageName></packageName>
+        <script>if (not MM_Travel) then
+	MM_Travel = {}
+	MM_Travel.target = {}
+	MM_Travel.store = {}
+end
+
+function MM_Travel:target(target)
+	if (not self.store[target]) then
+		echo("No data for target " .. target)
+	else
+		self.target = {target, self.store[target]}
+	end
+end
+function MM_Travel:add(coord, target)
+	if (not self.store[target]) then
+		echo("\nAdding travel point: " .. target .. ": " .. coord[1] .. "," .. coord[2])
+      self.store[target] = coord
+      Util:saveTable("travel", self.store)
+	end
+end
+function MM_Travel:distance(coords)
+	if (self.target) then 
+		local diff1 = coords[1] - self.target[2][1]
+		local diff2 = coords[2] - self.target[2][2]
+		echo("\nDistance to target(" .. self.target[1] .. "): " .. math.max(math.abs(diff1), math.abs(diff2)))
+		local dir1 = ""
+		local dir2 = ""
+		if(diff1 &lt; 0) then dir1 = "E" else dir1 = "W" end
+		if(diff2 &lt; 0) then dir2 = "S" else dir2 = "N" end
+		echo(string.format("(%d %s, %d %s)", math.abs(diff1), dir1, math.abs(diff2), dir2))
+	end
+end
+function MM_Travel:found()
+	self.target = {}
+end</script>
+        <eventHandlerList />
+      </Script>
+    </ScriptGroup>
+  </ScriptPackage>
+  <KeyPackage />
+</MudletPackage>

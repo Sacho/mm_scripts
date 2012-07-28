@@ -1,4 +1,11 @@
 #################
+## My build tools
+#################
+script_exporter.bat
+PackageExporter.exe
+Profile.xml.xml
+
+#################
 ## Eclipse
 #################
 

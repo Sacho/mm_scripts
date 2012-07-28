@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE MudletPackage >
+<MudletPackage version="1.0">
+  <TriggerPackage>
+    <name>MM_Vitals</name>
+    <script></script>
+    <triggerType>0</triggerType>
+    <conditonLineDelta>0</conditonLineDelta>
+    <mStayOpen>0</mStayOpen>
+    <mCommand></mCommand>
+    <packageName>Vitals</packageName>
+    <mFgColor>#ff0000</mFgColor>
+    <mBgColor>#ffff00</mBgColor>
+    <mSoundFile></mSoundFile>
+    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+    <regexCodeList />
+    <regexCodePropertyList />
+    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+      <name>MM_Vitals Prompt</name>
+      <script>MM_Vitals:prompt(multimatches[2][2], multimatches[2][3], multimatches[2][4])</script>
+      <triggerType>0</triggerType>
+      <conditonLineDelta>0</conditonLineDelta>
+      <mStayOpen>0</mStayOpen>
+      <mCommand></mCommand>
+      <packageName></packageName>
+      <mFgColor>#ff0000</mFgColor>
+      <mBgColor>#ffff00</mBgColor>
+      <mSoundFile></mSoundFile>
+      <colorTriggerFgColor>#000000</colorTriggerFgColor>
+      <colorTriggerBgColor>#000000</colorTriggerBgColor>
+      <regexCodeList>
+        <string>return isPrompt()</string>
+        <string>&lt;(\d+)hp (\d+)sp (\d+)st&gt;</string>
+      </regexCodeList>
+      <regexCodePropertyList>
+        <integer>4</integer>
+        <integer>1</integer>
+      </regexCodePropertyList>
+    </Trigger>
+  </TriggerPackage>
+  <TimerPackage />
+  <AliasPackage />
+  <ActionPackage />
+  <ScriptPackage>
+    <name>MM_Vitals</name>
+    <packageName>Vitals</packageName>
+    <script></script>
+    <eventHandlerList />
+    <Script isActive="yes" isFolder="no">
+      <name>Core</name>
+      <packageName></packageName>
+      <script>if (not MM_Vitals) then
+	MM_Vitals = {}
+	MM_Vitals.current = {
+		["hp"] = 0,
+		["sp"] = 0,
+		["st"] = 0
+	}
+	MM_Vitals.config = {
+		["colorLost"] = "&lt;red&gt;",
+		["colorGained"] = "&lt;green&gt;"
+	}
+end
+function MM_Vitals:prompt (hp, sp, st)
+	local old = self.current
+	local mod = {
+		["hp"] = hp - old.hp,
+		["sp"] = sp - old.sp,
+		["st"] = st - old.st,
+	}
+	if mod.hp ~= 0 or mod.sp ~= 0 then
+		cecho(string.format("[%s%s&lt;grey&gt;hp %s%s&lt;grey&gt;sp %s%s&lt;grey&gt;st]",
+		self:color(mod.hp), mod.hp,
+		self:color(mod.sp), mod.sp,
+		self:color(mod.st), mod.st))
+	end
+	old.hp = hp
+	old.sp = sp
+	old.st = st
+end
+function MM_Vitals:color (val) 
+	if val &lt; 0 then return self.config.colorLost end
+	if val == 0 then return "&lt;grey&gt;" end
+	return self.config.colorGained
+end</script>
+      <eventHandlerList />
+    </Script>
+  </ScriptPackage>
+  <KeyPackage />
+</MudletPackage>
