@@ -1,18 +1,19 @@
 Introduction
 ============
 
-This repository hosts all my Mudlet script packages for the mud Materia Magica. For information how to install Mudlet packages, [see the Installation Instructions](#installation). Each package has a complete description, list of dependencies(which other packages are needed), and API reference in the [List of Packages](#list-of-packages). Packages are generally tested on Mudlet 2.0-test4(windows build).
+This repository hosts all my Mudlet script packages for the mud Materia Magica. For information how to install Mudlet script packages, [see the Installation Instructions](#installation). Each script package has a complete description, list of dependencies(which other packages are needed), and API reference in the [List of Scripts](#list-of-scripts). The script packages are generally tested on Mudlet 2.0-test4(windows build), which is what I play on.
 
-If you have some problem installing or using the packages, or if you would like to contribute improvements to them, contact me in-game.
+If you have some problem installing or using the script packages, or if you would like to contribute improvements to them, contact me in-game.
 
 Installation
 ============
 
 ### For Mudlet 2.0 users
 
-First, and download the package you want plus all its dependencies from the packages directory(To download them, simply right click -> save as). Open the Mudlet profile you want to install the packages in, and open the package manager(Either through the text menu - Toolbox -> Package Manager, or through the icon menu - the brown box "Package Manager"). Then simply install all the packages (no particular order needed). In order for the packages to start working, you may need to close and reopen your profile.
-
-If you have an old version of a package and want to upgrade, uninstall the package, download the new version and simply install it again.
+* Download the script package you want plus all its dependencies from the **packages** directory. (To download them, simply right click -> save as.)
+* Start Mudlet and open the profile you want to install them in(ie connect to MM).
+* Open the package manager and install the script packages - no particular order is needed. (To open the package manager, either use the text menu - Toolbox->Package Manager, or the icon menu - the brown box "Package Manager")
+* After installing, close and reopen your profile(or Mudlet) to make sure all scripts are loaded correctly. When you login, all scripts should report successful initialization(eg, MM_Util has been successfully loaded) 
 
 ** VERY IMPORTANT ** Make sure the package you download is named the same way as it is in the repository (And not, say, MM_Whatever (1).xml.xml). Since mudlet uses filenames to determine the name for the package to be installed, the name must match the one in the repository, or some of the scripts might not work as expected.
 
