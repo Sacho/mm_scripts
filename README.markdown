@@ -15,7 +15,7 @@ Installation
 * Open the package manager and install the script packages - no particular order is needed. (To open the package manager, either use the text menu - Toolbox->Package Manager, or the icon menu - the brown box "Package Manager")
 * After installing, close and reopen your profile(or Mudlet) to make sure all scripts are loaded correctly. When you login, all scripts should report successful initialization(eg, MM_Util has been successfully loaded) 
 
-** VERY IMPORTANT ** Make sure the package you download is named the same way as it is in the repository (And not, say, MM_Whatever (1).xml.xml). Since mudlet uses filenames to determine the name for the package to be installed, the name must match the one in the repository, or some of the scripts might not work as expected.
+**VERY IMPORTANT** Make sure the package you download is named the same way as it is in the repository (And not, say, MM_Whatever (1).xml.xml). Since mudlet uses filenames to determine the name for the package to be installed, the name must match the one in the repository, or some of the scripts might not work as expected.
 
 
 List of Packages
