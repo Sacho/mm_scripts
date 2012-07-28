@@ -32,12 +32,12 @@ Tracks the changes of your vitals(hp, sp, st) and shows them in a concise form o
 ### Configuration and Usage
 MM_Vitals should automatically track hp/sp changes between consecutive prompts, and display them in square brackets next to the prompt. The script specifically doesn't track st changes only, to reduce spam when walking. 
 
-You can configure the colors the script uses to highlight positive or negative changes of hp/sp by opening Scripts -> MM_Vitals -> MM_Vitals Core and changing the values colorLost and colorGained of MM_Vitals.config. For a list of available colors, see [http://www.mudlet.org/asciidoc/manual.html#fg]
+You can configure the colors the script uses to highlight positive or negative changes of hp/sp by opening Scripts -> MM_Vitals -> MM_Vitals Core and changing the values colorLost and colorGained of MM_Vitals.config. For a list of available colors, see http://www.mudlet.org/asciidoc/manual.html#fg
 ### Dependencies
 None
 ### API Reference
-MM_Vitals:color(value) - Returns the color to display the value with depending on configuration
-MM_Vitals:prompt(hp,sp,st) - Given the new values of hp, sp and st, displays the difference compared to the last call.
+*MM_Vitals:color(value) - Returns the color to display the value with depending on configuration
+*MM_Vitals:prompt(hp,sp,st) - Given the new values of hp, sp and st, displays the difference compared to the last call.
 ### Tested on
 2.0-test4
 MM_Util
