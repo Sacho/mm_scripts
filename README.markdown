@@ -38,8 +38,10 @@ None
 ### API Reference
 * MM_Vitals:color(value) - Returns the color to display the value with depending on configuration
 * MM_Vitals:prompt(hp,sp,st) - Given the new values of hp, sp and st, displays the difference compared to the last call.
+
 ### Tested on
 2.0-test4
+
 MM_Util
 -------
 
