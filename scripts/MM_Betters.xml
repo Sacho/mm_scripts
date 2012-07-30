@@ -9,7 +9,7 @@
       <conditonLineDelta>0</conditonLineDelta>
       <mStayOpen>0</mStayOpen>
       <mCommand></mCommand>
-      <packageName></packageName>
+      <packageName>MM_Betters</packageName>
       <mFgColor>#ff0000</mFgColor>
       <mBgColor>#ffff00</mBgColor>
       <mSoundFile></mSoundFile>
@@ -47,14 +47,15 @@
   <ScriptPackage>
     <ScriptGroup isActive="yes" isFolder="yes">
       <name>MM_Betters</name>
-      <packageName></packageName>
+      <packageName>MM_Betters</packageName>
       <script></script>
       <eventHandlerList />
       <Script isActive="yes" isFolder="no">
         <name>MM_Betters_OnLoad</name>
         <packageName></packageName>
         <script>function MM_Betters_OnLoad()
-	MM_Util:loadTable("betters", MM_Betters.store)
+	MM_Util:loadTable("MM_Betters", MM_Betters.store)
+	echo("MM_Betters successfully loaded\n")
 end</script>
         <eventHandlerList>
           <string>sysLoadEvent</string>
@@ -70,7 +71,7 @@ end
 
 function MM_Betters:add(skill, prcnt)
 	table.insert(self.store, skill .. prcnt .. " at " .. os.date("%Y-%m-%d %H:%M:%S"))
-	MM_Util:saveTable("betters", self.store)
+	MM_Util:saveTable("MM_Betters", self.store)
 end
 </script>
         <eventHandlerList />

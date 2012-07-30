@@ -35,10 +35,8 @@ MM_Vitals should automatically track hp/sp changes between consecutive prompts, 
 You can configure the colors the script uses to highlight positive or negative changes of hp/sp by opening Scripts -> MM_Vitals -> MM_Vitals Core and changing the values colorLost and colorGained of MM_Vitals.config. For a list of available colors, see http://www.mudlet.org/asciidoc/manual.html#fg
 ### Dependencies
 None
-### API Reference
-* MM_Vitals:color(value) - Returns the color to display the value with depending on configuration
-* MM_Vitals:prompt(hp,sp,st) - Given the new values of hp, sp and st, displays the difference compared to the last call.
-
+### Aliases
+None
 ### Tested on
 2.0-test4
 
@@ -51,7 +49,7 @@ This is a package of commonly used functions by the other packages. It doesn't o
 N/A
 ### Dependencies
 None
-### API Reference
-TBD
+### Aliases
+None
 ### Tested on
 2.0-test4

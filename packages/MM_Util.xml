@@ -7,7 +7,7 @@
   <ActionPackage />
   <ScriptPackage>
     <name>MM_Util</name>
-    <packageName>Util</packageName>
+    <packageName>MM_Util</packageName>
     <script></script>
     <eventHandlerList />
     <Script isActive="yes" isFolder="no">
@@ -45,6 +45,24 @@ end
 		num = num % powers[i]
 	end
 	display(combo)
+end</script>
+      <eventHandlerList />
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Util_OnLoad</name>
+      <packageName></packageName>
+      <script>function MM_Util_OnLoad()
+	if (MM_Util) then echo("MM_Util successfully loaded\n") end
+end</script>
+      <eventHandlerList>
+        <string>sysLoadEvent</string>
+      </eventHandlerList>
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>echoln</name>
+      <packageName></packageName>
+      <script>function echoln(fmt, ...)
+	echo(string.format(fmt, ...) .. "\n")
 end</script>
       <eventHandlerList />
     </Script>

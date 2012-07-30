@@ -8,7 +8,7 @@
     <conditonLineDelta>0</conditonLineDelta>
     <mStayOpen>0</mStayOpen>
     <mCommand></mCommand>
-    <packageName>Vitals</packageName>
+    <packageName>MM_Vitals</packageName>
     <mFgColor>#ff0000</mFgColor>
     <mBgColor>#ffff00</mBgColor>
     <mSoundFile></mSoundFile>
@@ -44,11 +44,11 @@
   <ActionPackage />
   <ScriptPackage>
     <name>MM_Vitals</name>
-    <packageName>Vitals</packageName>
+    <packageName>MM_Vitals</packageName>
     <script></script>
     <eventHandlerList />
     <Script isActive="yes" isFolder="no">
-      <name>Core</name>
+      <name>MM_Vitals Core</name>
       <packageName></packageName>
       <script>if (not MM_Vitals) then
 	MM_Vitals = {}
@@ -85,6 +85,16 @@ function MM_Vitals:color (val)
 	return self.config.colorGained
 end</script>
       <eventHandlerList />
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Vitals_OnLoad</name>
+      <packageName></packageName>
+      <script>function MM_Vitals_OnLoad()
+	if (MM_Vitals) then echo("MM_Vitals successfully loaded\n") end
+end</script>
+      <eventHandlerList>
+        <string>sysLoadEvent</string>
+      </eventHandlerList>
     </Script>
   </ScriptPackage>
   <KeyPackage />

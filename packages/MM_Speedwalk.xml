@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE MudletPackage >
+<MudletPackage version="1.0">
+  <TriggerPackage />
+  <TimerPackage />
+  <AliasPackage>
+    <name>MM_Speedwalk</name>
+    <script></script>
+    <command></command>
+    <packageName></packageName>
+    <regex></regex>
+    <Alias isActive="no" isFolder="no">
+      <name>MM_Speedwalk Marked Movement</name>
+      <script>MM_Speedwalk:markAdd(matches[2])</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^(nw|n|ne|e|se|s|sw|w|u|d)$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Start</name>
+      <script>MM_Speedwalk:markStart()</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark start$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Undo</name>
+      <script>MM_Speedwalk:markUndo()</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark undo$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Finish</name>
+      <script>MM_Speedwalk:markFinish(matches[2])</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark finish (.*)$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Halt</name>
+      <script>MM_Speedwalk:markHalt()</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark halt$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Show</name>
+      <script>MM_Speedwalk:markShow()</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark show$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Show All</name>
+      <script>MM_Speedwalk:markShowAll()</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark show all$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Delete</name>
+      <script>MM_Speedwalk:markDelete(matches[2])</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^mark delete (.*)$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Run Speedwalk</name>
+      <script>MM_Speedwalk:speedwalk(matches[2])</script>
+      <command></command>
+      <packageName></packageName>
+      <regex>^speedwalk (.*)$</regex>
+    </Alias>
+    <Alias isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Mark Discard</name>
+      <script></script>
+      <command></command>
+      <packageName></packageName>
+      <regex></regex>
+    </Alias>
+  </AliasPackage>
+  <ActionPackage />
+  <ScriptPackage>
+    <name>MM_Speedwalk</name>
+    <packageName></packageName>
+    <script></script>
+    <eventHandlerList />
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Core</name>
+      <packageName></packageName>
+      <script>if (not MM_Speedwalk) then
+	MM_Speedwalk = {}
+	MM_Speedwalk.store = {}
+	
+-- Related to marking/creating speedwalks
+	MM_Speedwalk.mark = {}
+	MM_Speedwalk.markHalted = false
+
+-- Related to running along a speedwalk
+	MM_Speedwalk.walk = {}
+	MM_Speedwalk.walkIndex = 1
+	MM_Speedwalk.walkNum = 0
+
+	MM_Speedwalk.strings = {
+		["speedwalkNotExist"] = "Speedwalk %s doesn't exist!",
+		["speedwalkExist"]    = "Speedwalk %s already exists!",
+		["speedwalkStart"]    = "Running speedwalk %s",
+		["speedwalkCreated"]  = "Speedwalk %s has been created successfully",
+		["speedwalkDeleted"]  = "Speedwalk %s has been deleted",
+		["markStart"]   = "Starting speedwalk marker",
+		["markRestart"] = "Restarting speedwalk marker",
+		["markHalt"]    = "Halting speedwalk marker"
+	}
+end
+
+
+function MM_Speedwalk:speedwalk(name)
+	if (not self.store[name]) then
+		echoln(self.strings["speedwalkNotExist"], name)
+		return
+	end
+	echoln(self.strings["speedwalkStart"], name)
+	self.walk = self.store[name]
+	self.walkIndex = 1
+	self.walkNum = 0
+	self:walkOnce()
+end
+
+function MM_Speedwalk:walkOnce()
+	local dir = self.walk[self.walkIndex]
+	if (dir[2] == self.walkNum) then
+		self.walkIndex = self.walkIndex + 1
+		if (self.walkIndex &gt; #self.walk) then return end -- finished speedwalk
+		dir = self.walk[self.walkIndex]
+		self.walkNum = 0
+	end
+	self.walkNum = self.walkNum + 1
+	tempTimer(0.05, function() send(dir[1], false) self:walkOnce() end)
+end
+</script>
+      <eventHandlerList />
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Speedwalk Marking</name>
+      <packageName></packageName>
+      <script>function MM_Speedwalk:markStart()
+	if (not self.markHalted) then 
+		self.mark = {}
+		echoln(self.strings["markStart"])
+	else
+		self.markHalted = false
+		echoln(self.strings["markRestart"])
+	end
+	enableAlias("MM_Speedwalk Marked Movement")
+end
+
+function MM_Speedwalk:markHalt()
+	self.markHalted = true
+	disableAlias("MM_Speedwalk Marked Movement")
+	echoln(self.strings["markHalt"])
+end
+
+function MM_Speedwalk:markFinish(name)
+	if (self.store[name]) then
+		echoln(self.strings["speedwalkExist"], name)
+		return
+	end
+	self.store[name] = self.mark
+	MM_Util:saveTable("MM_Speedwalk", self.store)
+	MM_Speedwalk:markDiscard()
+	echoln(self.strings["speedwalkCreated"], name)
+end
+
+function MM_Speedwalk:markDiscard()
+	self.mark = {}
+	disableAlias("MM_Speedwalk Marked Movement")
+end
+
+function MM_Speedwalk:markAdd(dir)
+	local lastDir = self.mark[#self.mark]
+	if (lastDir ~= nil and lastDir[1] == dir) then
+		lastDir[2] = lastDir[2] + 1
+	else
+		table.insert(self.mark, { dir, 1 })
+	end
+	send(dir, false)
+	self:markShow()
+end
+
+function MM_Speedwalk:markUndo()
+	local lastDir = self.mark[#self.mark]
+	if (lastDir ~= nil and lastDir[2] &gt; 1) then
+		lastDir[2] = lastDir[2] - 1
+	else
+		table.remove(self.mark)
+	end
+	self:markShow()
+end
+
+function MM_Speedwalk:markShow()
+	for i, dir in pairs(self.mark) do
+		echo(dir[2] .. dir[1])
+	end
+end
+
+function MM_Speedwalk:markShowAll()
+	for name, walk in pairs(self.store) do
+		echo(name .. ":")
+		for i, dir in pairs(walk) do
+			echo(dir[2] .. dir[1])
+		end
+		echo("\n")
+	end
+end
+
+function MM_Speedwalk:markDelete(name)
+	if (not self.store[name]) then
+		echoln(self.strings["speedwalkNotExist"], name)
+		return
+	end
+	self.store[name] = nil
+	echoln(self.strings["speedwalkDeleted"], name)
+end
+
+</script>
+      <eventHandlerList />
+    </Script>
+    <Script isActive="yes" isFolder="no">
+      <name>MM_Speedwalk_OnLoad</name>
+      <packageName></packageName>
+      <script>function MM_Speedwalk_OnLoad()
+	MM_Util:loadTable("MM_Speedwalk", MM_Speedwalk.store)
+	disableAlias("MM_Speedwalk Marked Movement")
+	echoln("MM_Speedwalk successfully loaded")
+end</script>
+      <eventHandlerList>
+        <string>sysLoadEvent</string>
+      </eventHandlerList>
+    </Script>
+  </ScriptPackage>
+  <KeyPackage />
+</MudletPackage>
