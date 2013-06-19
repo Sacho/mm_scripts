@@ -1,28 +1,31 @@
 Introduction
 ============
 
-This repository hosts all my Mudlet script packages for the mud Materia Magica. For information how to install Mudlet script packages, [see the Installation Instructions](#installation). Each script package has a complete description, list of dependencies(which other packages are needed), and API reference in the [List of Scripts](#list-of-scripts). The script packages are generally tested on Mudlet 2.0-test4(windows build), which is what I play on.
+This repository hosts all my Mudlet script packages for the mud Materia Magica. For information how to install Mudlet script packages, [see the Installation Instructions](#installation). Each script package has a description and dependencies(which other packages are needed) in the [List of Packages](#list-of-packages). The script packages are generally tested on Mudlet 2.0-test4/2.1(windows build), which is what I play on.
 
 If you have some problem installing or using the script packages, or if you would like to contribute improvements to them, contact me in-game.
 
 Installation
 ============
 
-### For Mudlet 2.0 users
+### For Mudlet 2.0+ users
 
 * Download the script package you want plus all its dependencies from the **packages** directory. (To download them, simply right click -> save as.)
 * Start Mudlet and open the profile you want to install them in(ie connect to MM).
 * Open the package manager and install the script packages - no particular order is needed. (To open the package manager, either use the text menu - Toolbox->Package Manager, or the icon menu - the brown box "Package Manager")
 * After installing, close and reopen your profile(or Mudlet) to make sure all scripts are loaded correctly. When you login, all scripts should report successful initialization(eg, MM_Util has been successfully loaded) 
-
-**VERY IMPORTANT** Make sure the package you download is named the same way as it is in the repository (And not, say, MM_Whatever (1).xml.xml). Since mudlet uses filenames to determine the name for the package to be installed, the name must match the one in the repository, or some of the scripts might not work as expected.
+* As far as I know, Mudlet doesn't offer versioning of packages yet. If you need to update a package, you basically have to uninstall and install it again(this won't delete saved data for scripts, like locations for MM_Travel, but it will remove any modifications to aliases/triggers/scripts you made)
+* Scripts that store a database of information save files in your profile's directory. On Windows, the profile directory is in Users->YourUser->.config->mudlet->profiles->YourMMProfile.
+**VERY IMPORTANT** Make sure the filename of the package you download is the same as it is here in the repository (For example, if you try downloading the same package twice, you might get a filename such as MM_Util(1).xml). Mudlet uses the filename to determine the name of the package you are installing, and a mismatch will cause some scripts to malfunction.
 
 
 List of Packages
 ================
 * [MM_Vitals](#mm_vitals) - track hp/sp/st changes
+* [MM_Travel] (#mm_travel) - aids blink/teleportation travel by providing coordinates and distance to your target.
 * [MM_Util] (#mm_util) - utility package
 
+For sample usage of each package, see the **samples** directory.
 
 MM_Vitals
 ---------
@@ -40,10 +43,26 @@ None
 ### Tested on
 2.0-test4
 
+MM_Travel
+---------
+
+MM_Travel is designed to aid blink/teleportation travel. It allows you to *target* a specific zone(e.g. Maldra's Keep), and then shows you the distance from it when you use a sextant. This helps to limit excessive blinking on the Material Plane specifically, after the addition of so many villages limiting recall zones.
+
+### Configuration and Usage
+MM_Travel starts with an empty database of zones. You can add coordinates by simply walking into the zone and looking at your sextant - this should automatically add the zone to the database. You can find a sample DB in the **db** directory(you'd need to save it to your profile, see the [Installation](#installation) section for where that is).
+
+You can set or clear your current target with the *target set* and *target clear* aliases. Looking at your sextant should give you the distance to your current target.
+### Dependencies
+MM_Util
+### Aliases
+None
+### Tested on
+2.0-test4
+
 MM_Util
 -------
 
-This is a package of commonly used functions by the other packages. It doesn't offer any specific functionality on its own.
+This is a package of commonly used functions by the other packages. It doesn't offer any gameplay functionality on its own.
 
 ### Configuration and Usage
 N/A
