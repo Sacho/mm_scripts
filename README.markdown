@@ -28,11 +28,9 @@ List of Packages
 
 ### MM_Vitals
 
-Tracks the changes of your vitals(hp, sp, st) and shows them in a concise form on your prompt
+Tracks the changes of your vitals(hp, sp, st) and shows them in a concise form on your prompt. The script specifically doesn't show only st changes, to reduce spam while walking.
 
 #### Configuration
-MM_Vitals should automatically track hp/sp changes between consecutive prompts, and display them in square brackets next to the prompt. The script specifically doesn't track st changes only, to reduce spam when walking. 
-
 You can configure the colors the script uses to highlight positive or negative changes of hp/sp by opening Scripts -> MM_Vitals -> MM_Vitals Core and changing the values colorLost and colorGained of MM_Vitals.config. For a list of available colors, see http://www.mudlet.org/asciidoc/manual.html#fg
 #### [Sample Usage](http://htmlpreview.github.io/?https://github.com/Sacho/mm_scripts/blob/master/samples/MM_Vitals.html)
 #### Aliases
@@ -42,14 +40,15 @@ None
 
 ### MM_Travel
 
-MM_Travel is designed to aid blink/teleportation travel. It allows you to *target* a specific zone(e.g. Maldra's Keep), and then shows you the distance from it when you use a sextant. This helps to limit excessive blinking on the Material Plane specifically, after the addition of so many villages limiting recall zones.
+MM_Travel is designed to aid blink/teleportation travel. It allows you to **target** a specific zone(e.g. Maldra's Keep), and then shows you the distance from it when you use a sextant. This helps to limit excessive blinking on the Material Plane specifically, after the addition of so many villages limiting recall zones.
 
 #### Configuration
 MM_Travel starts with an empty database of zones. You can add coordinates by simply walking into a zone and looking at your sextant - this should automatically add the zone to the database. You can find a sample DB in the **db** directory(you'd need to save it to your profile, see the [Installation](#installation) section for where that is).
 #### [Sample Usage](http://htmlpreview.github.io/?https://github.com/Sacho/mm_scripts/blob/master/samples/MM_Travel.html)
 #### Aliases
-* travel set *Zone* - Sets the current zone you are travelling to.
-* travel clear - Clears the current zone.
+* `travel set **Zone**` - Sets the current zone you are travelling to.
+* `travel clear` - Clears the current zone.
+
 #### Dependencies
 * MM_Util
 
