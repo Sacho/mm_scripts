@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.0">
+	<TriggerPackage>
+            <name>MM_Affects</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList/>
+            <regexCodePropertyList/>
+            <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>MM_Affects Capture</name>
+                <script>MM_Affects:capture()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>99</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You are affected by the following:</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>Spells</name>
+                    <script>MM_Affects:have(matches[2])</script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>1</conditonLineDelta>
+                    <mStayOpen>0</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList>
+                        <string>^Spell: ([\w\s]+)\b\s+-</string>
+                    </regexCodeList>
+                    <regexCodePropertyList>
+                        <integer>1</integer>
+                    </regexCodePropertyList>
+                </Trigger>
+                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>End Spells</name>
+                    <script>MM_Affects:finish()</script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>0</conditonLineDelta>
+                    <mStayOpen>0</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList>
+                        <string>^Total of (\d+) magical</string>
+                    </regexCodeList>
+                    <regexCodePropertyList>
+                        <integer>1</integer>
+                    </regexCodePropertyList>
+                </Trigger>
+            </TriggerGroup>
+        </TriggerPackage>
+		<ScriptPackage>
+            <name>MM_Affects</name>
+            <packageName></packageName>
+            <script></script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>MM_Affects_OnLoad</name>
+                <packageName></packageName>
+                <script>function MM_Affects_OnLoad()
+	MM_Util:loadTable(&quot;MM_Affects&quot;, MM_Affects.store)
+	echoln(&quot;MM_Affects successfully loaded&quot;)
+end</script>
+                <eventHandlerList>
+                    <string>sysLoadEvent</string>
+                </eventHandlerList>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>MM_Affects Core</name>
+                <packageName></packageName>
+                <script>if (not MM_Affects) then
+	MM_Affects = {}
+	MM_Affects.store = {}
+	MM_Affects.current = {}
+end
+
+function MM_Affects:track(affect)
+	self.store[affect] = true
+	MM_Util:saveTable(&quot;MM_Affects&quot;, self.store)
+	echoln(&quot;Tracking %s affect&quot;, affect)
+end
+
+function MM_Affects:remove(affect)
+	if (self.store[affect]) then
+		self.store[affect] = nil
+		MM_Util:saveTable(&quot;MM_Affects&quot;, self.store)
+		echoln(&quot;Stopped tracking %s affect&quot;, affect)
+	end
+end
+
+function MM_Affects:show()
+	echoln(&quot;Tracking affects:&quot;)
+	for key, value in pairs(self.store) do
+		echoln(key)
+	end
+end
+
+function MM_Affects:capture()
+	self.current = {}
+end
+
+function MM_Affects:have(affect)
+	self.current[affect] = true
+end
+
+function MM_Affects:finish()
+	setTriggerStayOpen(&quot;MM_Affects&quot;, 0)
+	echo(&quot;\nMissing affects:\n&quot;)
+	for key,value in pairs(self.store) do 
+		if (self.current[key] == nil) then
+			echoln(key)
+		end 
+	end 
+end</script>
+                <eventHandlerList/>
+            </Script>
+        </ScriptPackage>
+	<AliasPackage>
+		<name>MM_Affects</name>
+		<script></script>
+		<command></command>
+		<packageName></packageName>
+		<regex></regex>
+		<Alias isActive="yes" isFolder="no">
+			<name>Affects Add</name>
+			<script>MM_Affects:track(matches[2])</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^affects track (.+)$</regex>
+		</Alias>
+		<Alias isActive="yes" isFolder="no">
+			<name>Affects Show</name>
+			<script>MM_Affects:show()</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^affects show$</regex>
+		</Alias>
+		<Alias isActive="yes" isFolder="no">
+			<name>Affects Remove</name>
+			<script>MM_Affects:remove(matches[2])</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^affects remove (.+)$</regex>
+		</Alias>
+	</AliasPackage>
+</MudletPackage>

@@ -24,6 +24,7 @@ List of Packages
 ================
 * [MM_Vitals](#mm_vitals) - track hp/sp/st changes
 * [MM_Travel] (#mm_travel) - aids blink/teleportation travel by providing coordinates and distance to your target.
+* [MM_Affects] (#mm_affects) - tracks your positive affects to make rebuffing easier and faster.
 * [MM_Util] (#mm_util) - utility package
 
 ### MM_Vitals
@@ -46,11 +47,29 @@ MM_Travel is designed to aid blink/teleportation travel. It allows you to **targ
 MM_Travel starts with an empty database of zones. You can add coordinates by simply walking into a zone and looking at your sextant - this should automatically add the zone to the database. You can find a sample DB in the **db** directory(you'd need to save it to your profile, see the [Installation](#installation) section for where that is).
 #### [Sample Usage](http://htmlpreview.github.io/?https://github.com/Sacho/mm_scripts/blob/master/samples/MM_Travel.html)
 #### Aliases
-* `travel set **Zone**` - Sets the current zone you are travelling to.
+* `travel set [zone]` - Sets the current zone you are travelling to.
 * `travel clear` - Clears the current zone.
 
 #### Dependencies
 * MM_Util
+
+### MM_Affects
+
+MM_Affects helps you keep track which buffs you have on while fighting dispel spammers or debuff spammers. When you check affects, it will show you a list of missing buffs that you should reapply.
+
+#### Configuration
+
+MM_Affects stores a list of buffs that you want to track. 
+
+#### [Sample Usage](http://htmlpreview.github.io/?https://github.com/Sacho/mm_scripts/blob/master/samples/MM_Affects.html)
+#### Aliases
+* `affects show` - Show all affects you are tracking currently.
+* `affects add [affect]` - Starts tracking an affect.
+* `affects remove [affect]` - Stops tracking an affect.
+
+#### Dependencies
+* MM_Util
+
 
 ### MM_Util
 
